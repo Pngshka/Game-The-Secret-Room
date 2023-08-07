@@ -5,10 +5,10 @@ export default class BookshellCellsManager {
     #pixiApp;
     #cells;
     #spritesheet;
-    #cellsWithSprite;
+    cellsWithSprite;
 
     get cellsWithSprite(){
-        return this.#cellsWithSprite;
+        return this.cellsWithSprite;
     }
 
     constructor(pixiApp, spritesheet) {
@@ -47,13 +47,17 @@ export default class BookshellCellsManager {
     }
 
     randomCell(){
-        this.#cellsWithSprite = [];
+        this.cellsWithSprite = [];
         for (let i = 0; i < 2; i++) {
             let randRow = i;
             const randSprite = this.randomImg();
+
+            randSprite.alpha = 0;
+
             const CellToSprite = this.getCell(randRow);
             CellToSprite.setSprite(randSprite, true);
-            this.#cellsWithSprite.push(CellToSprite);
+            this.cellsWithSprite.push(CellToSprite);
+
         }
     }
     randomIndex = 0;
@@ -69,15 +73,15 @@ export default class BookshellCellsManager {
     }
 
     addGoodSpriteToRandomCell(sprite){
-        let cellsArraylength = this.#cellsWithSprite.length;
+        let cellsArraylength = this.cellsWithSprite.length;
         let current_x = 400 + 80 * cellsArraylength;
         let current_y = 450;
         const lastCellsWithSprite = new Cell(this.#pixiApp, current_x, current_y);
         lastCellsWithSprite.setSprite(sprite, true);
-        this.#cellsWithSprite.push(lastCellsWithSprite);
+        this.cellsWithSprite.push(lastCellsWithSprite);
         cellsArraylength++;
         const randIndex = Math.floor(Math.random() * cellsArraylength);
-        //debugger;
+        
         this.swapCellSprites(randIndex, cellsArraylength - 1);
     }
 
@@ -85,10 +89,20 @@ export default class BookshellCellsManager {
         if (index1 == index2)
             return;
         //debugger;
-        const sprite1 = this.#cellsWithSprite[index1].popSprite();
-        const sprite2 = this.#cellsWithSprite[index2].popSprite();
-        this.#cellsWithSprite[index1].setSprite(sprite2, true);
-        this.#cellsWithSprite[index2].setSprite(sprite1, true);
-    
+        const sprite1 = this.cellsWithSprite[index1].popSprite();
+        const sprite2 = this.cellsWithSprite[index2].popSprite();
+        this.cellsWithSprite[index1].setSprite(sprite2, true);
+        this.cellsWithSprite[index2].setSprite(sprite1, true);
+        
     }
+
+    /*alphaNull(){
+        for (let i = 0; i < 2; i++)
+            this.#cellsWithSprite[i].getSprite().alpha = 0;
+    }*/
+
+    /*popSprites(){
+        for (let i = 0; i < 3; i++)
+            this.#cellsWithSprite[i].popSprite();
+    }*/
 }

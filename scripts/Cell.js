@@ -3,23 +3,23 @@ export default class Cell{
     #pixiApp;
     x;
     y;
-    #sprite;
+    sprite;
     status;
 
     constructor(pixiApp, x, y) {
         this.#pixiApp=pixiApp;
         this.x=x;
         this.y=y;
-        this.#sprite=null;
+        this.sprite=null;
         this.status = true;
     }
 
     getSprite() {
-        return this.#sprite;
+        return this.sprite;
     }
 
     setSprite(sprite, flag) {
-        this.#sprite = sprite;
+        this.sprite = sprite;
         sprite.x = this.x;
         sprite.y = this.y;
         if (flag) sprite.scale.set(0.5); else sprite.scale.set(0.35);
@@ -27,10 +27,15 @@ export default class Cell{
     }
 
     popSprite() {
-        const thisSprite = this.#sprite;
-        this.#sprite = null;
+        const thisSprite = this.sprite;
+        this.sprite = null;
         this.#pixiApp.stage.removeChild(thisSprite);
         return thisSprite;
+    }
+
+    alphaNull(sprite){
+        this.sprite = sprite;
+        sprite.alpha = 1;
     }
 
     /*setOnClick(sprite) {

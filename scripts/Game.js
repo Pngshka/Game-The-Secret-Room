@@ -46,7 +46,7 @@ export default class Game{
 
     startLevel(){
         this.#LevelManager=new LevelManager(this.#pixiApp, this.#bookshellManager,
-                                            this.#GroundCellsManager, 1);
+                                            this.#GroundCellsManager, 1, this.#spritesheet);
         this.#LevelManager.startLevel();
     }
 
