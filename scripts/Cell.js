@@ -37,16 +37,6 @@ export default class Cell{
         this.sprite = sprite;
         sprite.alpha = 1;
     }
-
-    /*setOnClick(sprite) {
-        this.#sprite = sprite.on('pointerdown', onClick.bind(this));
-
-        function onClick()
-        {
-            this.#sprite[row][column].scale.x *= 1.25;
-            this.#sprite[row][column].scale.y *= 1.25;
-        }
-    }*/
 }
 
 

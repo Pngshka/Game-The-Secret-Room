@@ -16,7 +16,6 @@ export default class BookshellCellsManager {
     }
 
     #init() {
-        //Генерация клеток шкафа
         this.#cells = [];
         for (let i = 0; i < Constants.BOOKSHELLF_ROWS; i++) {
             this.#cells[i] = [];
@@ -82,25 +81,39 @@ export default class BookshellCellsManager {
             this.#cellsWithSprite.push(CellToSprite);
         }
     }
-    randomIndex = 0;
+    randomIndex = -1;
+    flag = true;
+    spriteArray = [1, 2, 3, 4, 5];
     randomImg(){
-        // const spriteArray = [1, 2, 3, 4, 5];
-        // spriteArray.sort(() => Math.random() - 0.5)
-        // .sort(() => Math.random() - 0.5)
-        // .sort(() => Math.random() - 0.5);
+        if (this.flag) {
+        this.spriteArray.sort(() => Math.random() - 0.5)
+        .sort(() => Math.random() - 0.5)
+        .sort(() => Math.random() - 0.5);
+        this.flag = false;
+        }
         this.randomIndex++;
-        if (this.randomIndex % 2 == 0)
+        if (this.spriteArray[this.randomIndex]==1)
+            return new PIXI.Sprite(this.#spritesheet.textures.enemy3);
+        if (this.spriteArray[this.randomIndex]==2)
             return new PIXI.Sprite(this.#spritesheet.textures.enemy2);
-        else return new PIXI.Sprite(this.#spritesheet.textures.enemy3);
+        if (this.spriteArray[this.randomIndex]==3)
+            return new PIXI.Sprite(this.#spritesheet.textures.enemy7);
+        if (this.spriteArray[this.randomIndex]==4)
+            return new PIXI.Sprite(this.#spritesheet.textures.enemy6);
+        if (this.spriteArray[this.randomIndex]==5)
+            return new PIXI.Sprite(this.#spritesheet.textures.enemy5);
     }
 
+    randTrueImgIndex;
+    randTrueImgSprite;
     randTrueImg() {
-        let randTrueImgIndex = 0;
-        while (this.#cellsWithSprite[randTrueImgIndex].status==false) {
-            randTrueImgIndex = Math.floor(Math.random() * this.#cellsWithSprite.length);
+        this.randTrueImgIndex = 0;
+        while (this.#cellsWithSprite[this.randTrueImgIndex].status==false) {
+            this.randTrueImgIndex = Math.floor(Math.random() * this.#cellsWithSprite.length);
         }
-        const returnCell = this.#cellsWithSprite[randTrueImgIndex].popSprite();
-        this.#cellsWithSprite.splice(randTrueImgIndex, 1);
+        this.randTrueImgSprite = this.#cellsWithSprite[this.randTrueImgIndex];
+        const returnCell = this.#cellsWithSprite[this.randTrueImgIndex].popSprite();
+        this.#cellsWithSprite.splice(this.randTrueImgIndex, 1);
         return returnCell;
     }
 }

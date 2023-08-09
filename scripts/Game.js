@@ -31,19 +31,6 @@ export default class Game{
         return this;
     }
 
-    /*drawCletka() {
-        for (let i=0; i<Constants.BOOKSHELLF_ROWS; i++) {
-            for (let j=0; j<Constants.BOOKSHELLF_COLUMNS;j++) { 
-                const sprite = new PIXI.Sprite(this.#spritesheet.textures.enemy2);
-                this.#bookshellManager.getCell(i, j).setSprite(sprite);
-            }
-        }
-        for (let i=0; i<3; i++) {
-            const sprite = new PIXI.Sprite(this.#spritesheet.textures.enemy2);
-            this.#GroundCellsManager.getCell(i).setSprite(sprite);
-        } 
-    }*/
-
     startLevel(){
         this.#LevelManager=new LevelManager(this.#pixiApp, this.#bookshellManager,
                                             this.#GroundCellsManager, 1, this.#spritesheet);

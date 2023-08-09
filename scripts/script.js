@@ -18,6 +18,16 @@ _pixiApp.stage.addChild(sprites);
 
 const atlasData = {
 	frames: {
+		good: {
+			frame: { x: 0, y:2004, w:141, h:114 },
+			sourceSize: { w: 141, h: 114 },
+			spriteSourceSize: { x: 0, y: 0, w: 141, h: 114 }
+		},
+		bad: {
+			frame: { x: 141, y:2004, w:114, h:114 },
+			sourceSize: { w: 114, h: 114 },
+			spriteSourceSize: { x: 0, y: 0, w: 114, h: 114 }
+		},
 		enemy1: {
 			frame: { x: 0, y:0, w:1920, h:1280 },
 			sourceSize: { w: 320, h: 320 },
@@ -35,7 +45,22 @@ const atlasData = {
 		},
 		enemy4: {
 			frame: { x: 0, y:1398, w:116, h:116 },
-			sourceSize: { w: 0, h: 0 },
+			sourceSize: { w: 116, h: 116 },
+			spriteSourceSize: { x: 0, y: 0, w: 116, h: 116 }
+		},
+		enemy5: {
+			frame: { x: 1131, y:1519, w:116, h:116 },
+			sourceSize: { w: 116, h: 116 },
+			spriteSourceSize: { x: 0, y: 0, w: 116, h: 116 }
+		},
+		enemy6: {
+			frame: { x: 492, y:1398, w:116, h:116 },
+			sourceSize: { w: 116, h: 116 },
+			spriteSourceSize: { x: 0, y: 0, w: 116, h: 116 }
+		},
+		enemy7: {
+			frame: { x: 1075, y:1638, w:116, h:116 },
+			sourceSize: { w: 116, h: 116 },
 			spriteSourceSize: { x: 0, y: 0, w: 116, h: 116 }
 		},
 	},
@@ -52,7 +77,6 @@ const spritesheet = new PIXI.Spritesheet(
 	atlasData
 );
 await spritesheet.parse();
-
 //debugger;
 
 const background = new PIXI.Sprite(spritesheet.textures.enemy1);

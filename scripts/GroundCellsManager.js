@@ -18,7 +18,6 @@ export default class BookshellCellsManager {
     }
 
     #init() {
-        //Генерация клеток под шкафом
         this.#cells = [];
         for (let i = 0; i < 2; i++) {
             let current_x = 400 + 80 * i;
@@ -27,8 +26,9 @@ export default class BookshellCellsManager {
         }
     }
 
-
-    startNewGeneratedCell(){
+    randTrueImgSprite;
+    startNewGeneratedCell(randTrueImgSprite){
+        this.randTrueImgSprite = randTrueImgSprite;
         this.clearOldCells();
         this.#init();
         this.randomCell();
@@ -60,16 +60,33 @@ export default class BookshellCellsManager {
 
         }
     }
-    randomIndex = 0;
+    randomIndex = -1;
+    flag = true;
+    spriteArray = [1, 2, 3, 4, 5];
     randomImg(){
-        // const spriteArray = [1, 2, 3, 4, 5];
-        // spriteArray.sort(() => Math.random() - 0.5)
-        // .sort(() => Math.random() - 0.5)
-        // .sort(() => Math.random() - 0.5);
+        if (this.flag) {
+            this.spriteArray.sort(() => Math.random() - 0.5)
+            .sort(() => Math.random() - 0.5)
+            .sort(() => Math.random() - 0.5);
+            this.flag = false;
+        }
         this.randomIndex++;
-        if (this.randomIndex % 2 == 0)
-            return new PIXI.Sprite(this.#spritesheet.textures.enemy2);
-        else return new PIXI.Sprite(this.#spritesheet.textures.enemy3);
+        if (this.randTrueImgSprite!=this.spriteArray[this.randomIndex]){
+            if (this.spriteArray[this.randomIndex]==1)
+                return new PIXI.Sprite(this.#spritesheet.textures.enemy3);                
+            if (this.spriteArray[this.randomIndex]==2)
+                return new PIXI.Sprite(this.#spritesheet.textures.enemy2);
+            if (this.spriteArray[this.randomIndex]==3)
+                return new PIXI.Sprite(this.#spritesheet.textures.enemy7);                
+            if (this.spriteArray[this.randomIndex]==4)
+                return new PIXI.Sprite(this.#spritesheet.textures.enemy6);
+            if (this.spriteArray[this.randomIndex]==5)
+                return new PIXI.Sprite(this.#spritesheet.textures.enemy5);
+        } else 
+        {
+                this.randomIndex++;
+                this.randomImg();
+        }
     }
 
     addGoodSpriteToRandomCell(sprite){
@@ -95,14 +112,4 @@ export default class BookshellCellsManager {
         this.cellsWithSprite[index2].setSprite(sprite1, true);
         
     }
-
-    /*alphaNull(){
-        for (let i = 0; i < 2; i++)
-            this.#cellsWithSprite[i].getSprite().alpha = 0;
-    }*/
-
-    /*popSprites(){
-        for (let i = 0; i < 3; i++)
-            this.#cellsWithSprite[i].popSprite();
-    }*/
 }
