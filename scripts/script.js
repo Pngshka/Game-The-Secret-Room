@@ -77,10 +77,8 @@ const spritesheet = new PIXI.Spritesheet(
 	atlasData
 );
 await spritesheet.parse();
-//debugger;
 
 const background = new PIXI.Sprite(spritesheet.textures.enemy1);
-//const background = PIXI.Sprite.from('../images/image1.png');
 let GamePerci = new Game(_pixiApp, spritesheet)
                     .setBackground(background);
 

@@ -50,8 +50,8 @@ export default class BookshellCellsManager {
 
     randomCell(spriteCount){
         this.#cellsWithSprite = [];
-        for (let i = 0; i < 2; i++) {
-            for (let j = 0; j < 5; j++) {
+        for (let i = 0; i < Constants.BOOKSHELLF_ROWS-4; i++) {
+            for (let j = 0; j < Constants.BOOKSHELLF_COLUMNS; j++) {
                 const CellToSprite = this.getCell(i, j);
                 CellToSprite.setSprite(new PIXI.Sprite(this.#spritesheet.textures.enemy4), false);
                 CellToSprite.status = false;
@@ -59,8 +59,8 @@ export default class BookshellCellsManager {
             }
         }
 
-        for (let i = 3; i < 6; i++) {
-            for (let j = 0; j < 5; j++) {
+        for (let i = Constants.BOOKSHELLF_ROWS-3; i < Constants.BOOKSHELLF_ROWS; i++) {
+            for (let j = 0; j < Constants.BOOKSHELLF_COLUMNS; j++) {
                 const CellToSprite = this.getCell(i, j);
                 CellToSprite.setSprite(new PIXI.Sprite(this.#spritesheet.textures.enemy4), false);
                 CellToSprite.status = false;
@@ -112,6 +112,7 @@ export default class BookshellCellsManager {
             this.randTrueImgIndex = Math.floor(Math.random() * this.#cellsWithSprite.length);
         }
         this.randTrueImgSprite = this.#cellsWithSprite[this.randTrueImgIndex];
+        
         const returnCell = this.#cellsWithSprite[this.randTrueImgIndex].popSprite();
         this.#cellsWithSprite.splice(this.randTrueImgIndex, 1);
         return returnCell;

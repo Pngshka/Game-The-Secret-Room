@@ -1,5 +1,7 @@
 "use strict"
 import Cell from "./Cell.js";
+import Constants from "./GameConstants.js"
+
 export default class BookshellCellsManager {
 
     #pixiApp;
@@ -20,8 +22,8 @@ export default class BookshellCellsManager {
     #init() {
         this.#cells = [];
         for (let i = 0; i < 2; i++) {
-            let current_x = 400 + 80 * i;
-            let current_y = 450;
+            let current_x = Constants.GROUND_CELLS_X + Constants.GROUND_CELLS_X_MARGIN * i;
+            let current_y = Constants.GROUND_CELLS_Y;
             this.#cells.push(new Cell(this.#pixiApp, current_x, current_y));
         }
     }
@@ -53,6 +55,26 @@ export default class BookshellCellsManager {
             const randSprite = this.randomImg();
 
             randSprite.alpha = 0;
+
+            randSprite.anchor.set(Constants.ANCHOR, Constants.ANCHOR);
+            randSprite.cursor = 'pointer';
+            randSprite.canRotate = false;
+            randSprite.on('mouseover', function() {
+                                    this.canRotate = true;
+                                })
+                                .on('mouseout', function() {
+                                    this.canRotate = false;
+                                });
+            randSprite.eventMode = 'static';
+
+            this.#pixiApp.ticker.add((delta) => {
+                if(randSprite.canRotate){
+                    if (randSprite.rotation < 2) randSprite.rotation += Constants.ANGLE * delta;
+                }
+                else {
+                    if (randSprite.rotation > 0) randSprite.rotation -= Constants.ANGLE * delta;
+                }
+            });
 
             const CellToSprite = this.getCell(randRow);
             CellToSprite.setSprite(randSprite, true);
@@ -91,10 +113,31 @@ export default class BookshellCellsManager {
 
     addGoodSpriteToRandomCell(sprite){
         let cellsArraylength = this.cellsWithSprite.length;
-        let current_x = 400 + 80 * cellsArraylength;
-        let current_y = 450;
-        const lastCellsWithSprite = new Cell(this.#pixiApp, current_x, current_y);
+        let current_x = Constants.GROUND_CELLS_X + Constants.GROUND_CELLS_X_MARGIN * cellsArraylength;
+        let current_y = Constants.GROUND_CELLS_Y;
+        let lastCellsWithSprite = new Cell(this.#pixiApp, current_x, current_y);
         lastCellsWithSprite.setSprite(sprite, true);
+
+        sprite.anchor.set(Constants.ANCHOR, Constants.ANCHOR);
+        sprite.cursor = 'pointer';
+        sprite.canRotate = false;
+        sprite.on('mouseover', function() {
+                                this.canRotate = true;
+                            })
+                            .on('mouseout', function() {
+                                this.canRotate = false;
+                            });
+        sprite.eventMode = 'static';
+
+        this.#pixiApp.ticker.add((delta) => {
+            if(sprite.canRotate){
+                if (sprite.rotation < 2) sprite.rotation += Constants.ANGLE * delta;
+            }
+            else {
+                if (sprite.rotation > 0) sprite.rotation -= Constants.ANGLE * delta;
+            }
+        });
+
         this.cellsWithSprite.push(lastCellsWithSprite);
         cellsArraylength++;
         const randIndex = Math.floor(Math.random() * cellsArraylength);

@@ -22,7 +22,7 @@ export default class LevelManager {
     }
 
     #checkClickCount() {
-        if (this.badClickCount > 1)
+        if (this.badClickCount > 2)
             throw Error("Уже были сделани 3 плохие попытки");
         if (this.goodClickCount > 3)
             throw Error("Уже были сделаны 3 удачные попытки");
@@ -31,13 +31,13 @@ export default class LevelManager {
     badClick() {
         this.badClickCount++;
         this.#checkClickCount();
-        this.#buttonImage.eventMode = 'static';
+        //this.#buttonImage.eventMode = 'static';
         //this.#buttonImage.alpha = 1;
         //this.startDay();
 
         const error = new PIXI.Sprite(this.#spritesheet.textures.bad);
-        error.x = 450;
-        error.y = 200;
+        error.x = Constants.RESULT_X;
+        error.y = Constants.RESULT_Y;
         this.#pixiApp.stage.addChild(error);
         setTimeout(() => {this.#pixiApp.stage.removeChild(error)}, 400);
 
@@ -46,18 +46,13 @@ export default class LevelManager {
     }
 
     goodClick() {
-        this.#buttonImage.eventMode = 'static';
-        //this.#buttonImage.alpha = 1;
+        //this.#buttonImage.eventMode = 'static';
         this.goodClickCount++;
-
-        //if (this.goodClickCount < 3)
-          //  this.startDay();
-
+        
         const succses = new PIXI.Sprite(this.#spritesheet.textures.good);
-        succses.x = 450;
-        succses.y = 200;
+        succses.x = Constants.RESULT_X;
+        succses.y = Constants.RESULT_Y;
         this.#pixiApp.stage.addChild(succses);
-        //this.#pixiApp.stage.addChildAt(succses, this.#pixiApp.stage.children.length - 1);
         setTimeout(() => {this.#pixiApp.stage.removeChild(succses)}, 400);
 
         //this.#GroundCellsManager.cellsWithSprite[2].popSprite();
@@ -72,23 +67,24 @@ export default class LevelManager {
         this.#buttonImage.eventMode = 'none';
         this.#buttonImage.alpha = 0;
 
-        const badCells = this.#GroundCellsManager.cellsWithSprite;
+        let badCells = this.#GroundCellsManager.cellsWithSprite;
+        let currentBadCellSprite = badCells[0].getSprite();
         for (let i=0;i<badCells.length;i++){
-            const currentBadCell = badCells[i];
-            const currentBadCellSprite = currentBadCell.getSprite();
+            let currentBadCell = badCells[i];
+            currentBadCellSprite = currentBadCell.getSprite();
             currentBadCellSprite.alpha = 1;
             currentBadCellSprite.cursor = 'pointer';
             currentBadCellSprite.on('pointerdown', this.badClick.bind(this));
             currentBadCellSprite.eventMode = 'static';
-            
+        
         }
         this.#currentGoodSprite = this.#BookshellCellsManager.randTrueImg();
         this.#currentGoodSprite.cursor = 'pointer';
         this.#currentGoodSprite.on('pointerdown', this.goodClick.bind(this));
         this.#currentGoodSprite.eventMode = 'static';
         this.#GroundCellsManager.addGoodSpriteToRandomCell(this.#currentGoodSprite);
-        
     }
+    
 
     startLevel() {
         this.badClickCount = 0;
