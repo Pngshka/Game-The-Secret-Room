@@ -9,7 +9,7 @@ export default class BookshellCellsManager {
     #spritesheet;
     cellsWithSprite;
 
-    get cellsWithSprite(){
+    get cellsWithSprite() {
         return this.cellsWithSprite;
     }
 
@@ -29,26 +29,26 @@ export default class BookshellCellsManager {
     }
 
     randTrueImgSprite;
-    startNewGeneratedCell(randTrueImgSprite){
+    startNewGeneratedCell(randTrueImgSprite) {
         this.randTrueImgSprite = randTrueImgSprite;
         this.clearOldCells();
         this.#init();
         this.randomCell();
     }
 
-    clearOldCells(){
+    clearOldCells() {
         for (let i = 0; i < 2; i++) {
             const currentCell = this.getCell(i);
-                if (currentCell.getSprite() != null)
-                    currentCell.popSprite();
-        } 
+            if (currentCell.getSprite() != null)
+                currentCell.popSprite();
+        }
     }
 
     getCell(index) {
         return this.#cells[index];
     }
 
-    randomCell(){
+    randomCell() {
         this.cellsWithSprite = [];
         for (let i = 0; i < 2; i++) {
             let randRow = i;
@@ -59,16 +59,16 @@ export default class BookshellCellsManager {
             randSprite.anchor.set(Constants.ANCHOR, Constants.ANCHOR);
             randSprite.cursor = 'pointer';
             randSprite.canRotate = false;
-            randSprite.on('mouseover', function() {
-                                    this.canRotate = true;
-                                })
-                                .on('mouseout', function() {
-                                    this.canRotate = false;
-                                });
+            randSprite.on('mouseover', function () {
+                this.canRotate = true;
+            })
+                .on('mouseout', function () {
+                    this.canRotate = false;
+                });
             randSprite.eventMode = 'static';
 
             this.#pixiApp.ticker.add((delta) => {
-                if(randSprite.canRotate){
+                if (randSprite.canRotate) {
                     if (randSprite.rotation < 2) randSprite.rotation += Constants.ANGLE * delta;
                 }
                 else {
@@ -85,33 +85,32 @@ export default class BookshellCellsManager {
     randomIndex = -1;
     flag = true;
     spriteArray = [1, 2, 3, 4, 5];
-    randomImg(){
+    randomImg() {
         if (this.flag) {
             this.spriteArray.sort(() => Math.random() - 0.5)
-            .sort(() => Math.random() - 0.5)
-            .sort(() => Math.random() - 0.5);
+                .sort(() => Math.random() - 0.5)
+                .sort(() => Math.random() - 0.5);
             this.flag = false;
         }
         this.randomIndex++;
-        if (this.randTrueImgSprite!=this.spriteArray[this.randomIndex]){
-            if (this.spriteArray[this.randomIndex]==1)
-                return new PIXI.Sprite(this.#spritesheet.textures.enemy3);                
-            if (this.spriteArray[this.randomIndex]==2)
+        if (this.randTrueImgSprite != this.spriteArray[this.randomIndex]) {
+            if (this.spriteArray[this.randomIndex] == 1)
+                return new PIXI.Sprite(this.#spritesheet.textures.enemy3);
+            if (this.spriteArray[this.randomIndex] == 2)
                 return new PIXI.Sprite(this.#spritesheet.textures.enemy2);
-            if (this.spriteArray[this.randomIndex]==3)
-                return new PIXI.Sprite(this.#spritesheet.textures.enemy7);                
-            if (this.spriteArray[this.randomIndex]==4)
+            if (this.spriteArray[this.randomIndex] == 3)
+                return new PIXI.Sprite(this.#spritesheet.textures.enemy7);
+            if (this.spriteArray[this.randomIndex] == 4)
                 return new PIXI.Sprite(this.#spritesheet.textures.enemy6);
-            if (this.spriteArray[this.randomIndex]==5)
+            if (this.spriteArray[this.randomIndex] == 5)
                 return new PIXI.Sprite(this.#spritesheet.textures.enemy5);
-        } else 
-        {
-                this.randomIndex++;
-                this.randomImg();
+        } else {
+            this.randomIndex++;
+            this.randomImg();
         }
     }
 
-    addGoodSpriteToRandomCell(sprite){
+    addGoodSpriteToRandomCell(sprite) {
         let cellsArraylength = this.cellsWithSprite.length;
         let current_x = Constants.GROUND_CELLS_X + Constants.GROUND_CELLS_X_MARGIN * cellsArraylength;
         let current_y = Constants.GROUND_CELLS_Y;
@@ -121,16 +120,16 @@ export default class BookshellCellsManager {
         sprite.anchor.set(Constants.ANCHOR, Constants.ANCHOR);
         sprite.cursor = 'pointer';
         sprite.canRotate = false;
-        sprite.on('mouseover', function() {
-                                this.canRotate = true;
-                            })
-                            .on('mouseout', function() {
-                                this.canRotate = false;
-                            });
+        sprite.on('mouseover', function () {
+            this.canRotate = true;
+        })
+            .on('mouseout', function () {
+                this.canRotate = false;
+            });
         sprite.eventMode = 'static';
 
         this.#pixiApp.ticker.add((delta) => {
-            if(sprite.canRotate){
+            if (sprite.canRotate) {
                 if (sprite.rotation < 2) sprite.rotation += Constants.ANGLE * delta;
             }
             else {
@@ -141,7 +140,7 @@ export default class BookshellCellsManager {
         this.cellsWithSprite.push(lastCellsWithSprite);
         cellsArraylength++;
         const randIndex = Math.floor(Math.random() * cellsArraylength);
-        
+
         this.swapCellSprites(randIndex, cellsArraylength - 1);
     }
 
@@ -153,6 +152,6 @@ export default class BookshellCellsManager {
         const sprite2 = this.cellsWithSprite[index2].popSprite();
         this.cellsWithSprite[index1].setSprite(sprite2, true);
         this.cellsWithSprite[index2].setSprite(sprite1, true);
-        
+
     }
 }

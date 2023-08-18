@@ -93,6 +93,7 @@ export default class LevelManager {
         this.#GroundCellsManager.startNewGeneratedCell(this.#BookshellCellsManager.randTrueImgSprite);
 
         this.buttonClick();
+        this.startAnimation();
 
         //00const fishAnimation = setInterval(this.fishAnimate, 50);
         //setTimeout(() => this.startNight(), 2000);
@@ -108,5 +109,19 @@ export default class LevelManager {
         this.#buttonImage.on('pointerdown', this.startNight.bind(this));
         this.#buttonImage.eventMode = 'static';
         this.#pixiApp.stage.addChild(this.#buttonImage);
+    }
+
+    startAnimation(){
+        const anim = new PIXI.AnimatedSprite(this.#spritesheet.animations.enemy);
+
+        anim.scale.set(0.7);
+        anim.x=560;
+        anim.y=48;
+        // set the animation speed
+        anim.animationSpeed = 0.17;
+        // play the animation on a loop
+        anim.play();
+        // add it to the stage to render
+        this.#pixiApp.stage.addChild(anim);
     }
 }
